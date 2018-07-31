@@ -1,0 +1,28 @@
+h1 { color: #ffc213; font-family: 'Helvetica Neue', sans-serif; font-size: 40px; font-weight: bold; letter-spacing: -1px; line-height: 1; text-align: center; }
+.b {
+//height: 90vh;
+  /*background-image: url("http://www.ohmancorp.com/images/Win8BackGround-203040.png");*/
+}
+.text{
+  color: aliceblue;
+}
+.btntext{
+  background-color: #ffc213;
+  color: #354c5a;
+
+}
+.card-img{
+  height: 200px;
+  width: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+}
+
+.card{
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 7rem;
+  background-color: rgba(53,76,90,0.51);
+}
