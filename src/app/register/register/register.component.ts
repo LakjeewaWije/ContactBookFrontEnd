@@ -25,7 +25,7 @@ export class RegisterComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.post<any>('http://192.168.8.105:9000/user', {
+    this.http.post<any>('http://192.168.8.106:9000/user', {
       firstName: this.firstname,
       lastName: this.lastname,
       email: this.uemail,

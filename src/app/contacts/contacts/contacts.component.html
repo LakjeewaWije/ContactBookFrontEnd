@@ -1,0 +1,39 @@
+<div class="b">
+  <div class="container">
+    <div class="row">
+      <div class="col col-lg-9">
+        <div class="row">
+          <div class="col-md-7" >
+            <div class="listpadding">
+              <ul class="list-group ">
+                <li *ngFor="let contact  of contacts" class="list-group-item divli">
+                  <span> {{ contact.contactName }} | {{ contact.contactNumber }} </span>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-md-5" >
+            <div class="butnpadding">
+              <div class="card-body" style="background-color: coral">
+                <h1 class="card-title" style="text-align:center">
+                  New Contact
+                </h1>
+                <form>
+                  <div class="form-group">
+                    <label class="text" for="contactName">Contact Name</label>
+                    <input type="text" class="form-control" id="contactName" aria-describedby="emailHelp" placeholder="Name" [(ngModel)]="contactName" [ngModelOptions]="{standalone: true}">
+                  </div>
+                  <div class="form-group">
+                    <label class="text" for="contactNumber">Contact Number</label>
+                    <input type="text" class="form-control" id="contactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="contactNumber" [ngModelOptions]="{standalone: true}">
+                  </div>
+                  <button type="submit" class="btn btn-primary btntext" (click)="addContact()" style="background-color: #000000;">Add Contact</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

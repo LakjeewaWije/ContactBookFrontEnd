@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -9,7 +10,7 @@ import {HttpHeaders} from '@angular/common/http';
 export class LoginComponent implements OnInit {
   uemail: string;
   upassword: string;
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
@@ -22,11 +23,15 @@ export class LoginComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.post<any>('http://192.168.8.105:9000/login', {
+    this.http.post<any>('http://192.168.8.106:9000/login', {
       email: this.uemail,
       password: this.upassword
     }, {headers: headers}).subscribe(res => {
         console.log(res);
+        if (res.data.user.authToken != null) {
+          localStorage.setItem('authToken', res.data.user.authToken);
+          this.router.navigateByUrl('/contacts');
+        }
       },
       err => {
         console.log(err);
