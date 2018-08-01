@@ -1,0 +1,27 @@
+<div class="b">
+  <div class="container">
+    <div class="row justify-content-md-center">
+      <div class="col col-lg-6">
+        <div class="card" >
+          <div class="card-body">
+            <h1 class="card-title" style="text-align:center">
+              Login
+            </h1>
+            <form>
+              <div class="form-group">
+                <label class="text" for="email">Email address</label>
+                <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Email" [(ngModel)]="uemail" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                <label class="text" for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="upassword" [ngModelOptions]="{standalone: true}">
+              </div>
+              <button type="submit" class="btn btn-primary btntext" (click)="loginUser()">Register</button>
+              <div>Create a New Account ,<a routerLink="/register"> Register</a></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
