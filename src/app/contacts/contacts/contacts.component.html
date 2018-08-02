@@ -5,9 +5,25 @@
         <div class="row">
           <div class="col-md-7" >
             <div class="listpadding">
-              <ul class="list-group ">
+              <ul class="list-group w3-ul">
                 <li *ngFor="let contact  of contacts" class="list-group-item divli">
-                  <span> {{ contact.contactName }} | {{ contact.contactNumber }} </span>
+                  <div class="row">
+                    <div class="col-md-8" >
+                      <span> {{ contact.contactName }} | {{ contact.contactNumber }} </span>
+                    </div>
+                    <div class="col-md-4" >
+                      <span class="deletecontact" (click)="editContact(contact)"><img class="editIcon" src="https://www.shareicon.net/download/2017/02/05/878227_edit_512x512.png" style="width: 35px;height: 35px"></span>
+                    </div>
+
+                  </div>
+                  <div class="row">
+                    <div class="col-md-8" >
+                    </div>
+                    <div class="col-md-4" >
+                      <span class="deletecontact" (click)="deleteContact(contact)">&times;</span>
+                    </div>
+                  </div>
+
                 </li>
               </ul>
             </div>
@@ -36,4 +52,30 @@
       </div>
     </div>
   </div>
+</div>
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <span class="close" id="closebut" (click)="closeModal()">&times;</span>
+    <form>
+      <div class="form-group">
+        <p>Edit Contact</p>
+        <label class="text" for="contactName">Contact Name</label>
+        <input type="text" class="form-control" id="newcontactName" aria-describedby="emailHelp" placeholder="Name" [(ngModel)]="newcontactName" [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="form-group">
+        <label class="text" for="contactNumber">Contact Number</label>
+        <input type="text" class="form-control" id="newcontactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="newcontactNumber" [ngModelOptions]="{standalone: true}">
+      </div>
+      <div class="row">
+        <div class="col-md-10" >
+        <button type="submit" class="btn btn-primary btntext" (click)="saveEditedContact()" style="background-color: #000000;">Save</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+
 </div>

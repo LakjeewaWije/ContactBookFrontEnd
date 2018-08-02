@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import {LoginComponent} from './login/login/login.component';
 import {RegisterComponent} from './register/register/register.component';
 import {ContactsComponent} from './contacts/contacts/contacts.component';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -19,7 +18,7 @@ import {ContactsComponent} from './contacts/contacts/contacts.component';
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
