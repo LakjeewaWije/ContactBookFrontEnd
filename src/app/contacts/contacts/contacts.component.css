@@ -1,0 +1,78 @@
+.butnpadding{
+  padding-top: 100px;
+}
+.listpadding{
+  padding-top: 100px;
+}
+.list-group-item{
+  color: coral;
+  background: black;
+  font-size: 20px;
+  border: 1px solid white;
+  margin-top: auto;
+}
+.list-group-item:hover{
+  /*background-color: rgba(38, 52, 46, 0.85);*/
+  border-bottom-color: coral;
+}
+.deletecontact{
+  color: #aaaaaa;
+  float: right;
+  margin-left: 95%;
+  font-size: 40px;
+  font-weight: bold;
+}
+.deletecontact:hover{
+  color: coral;
+}
+.editIcon{
+  border: 4px solid #000000;
+  border-bottom-left-radius: 26px;
+  border-bottom-right-radius: 26px;
+  border-top-left-radius: 26px;
+  border-top-right-radius: 26px;
+}
+.editIcon:hover{
+ /*border-bottom-color: coral;*/
+  border-color: coral;
+}
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  height: 70%;
+}
+
+/* The Close Button */
+.close {
+  color: #aaaaaa;
+  float: right;
+  margin-left: 95%;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
