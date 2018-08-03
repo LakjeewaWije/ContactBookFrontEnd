@@ -36,7 +36,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.post<any>('http://192.168.8.106:9000/contact/add', {
+    this.http.post<any>('http://192.168.8.104:9000/contact/add', {
       contactName: this.contactName,
       contactNumber: this.contactNumber
     }, {headers: headers}).subscribe(res => {
@@ -57,7 +57,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.get<any>('http://192.168.8.106:9000/contact/view', {headers: headers}).subscribe(res => {
+    this.http.get<any>('http://192.168.8.104:9000/contact/view', {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
@@ -75,7 +75,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.delete<any>('http://192.168.8.106:9000/contact/delete' + '/' + contact.contactId, {
+    this.http.delete<any>('http://192.168.8.104:9000/contact/delete' + '/' + contact.contactId, {
       contact
     }, {headers: headers}).subscribe(res => {
         console.log(res);
@@ -104,6 +104,7 @@ export class ContactsComponent implements OnInit {
     this.user.setAuthToken(contact.user.authToken);
     this.contact.setuserObj(this.user);
   }
+
   saveEditedContact(): any {
     const contactToUpdate: any;
     const user: any;
@@ -116,7 +117,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.put<any>('http://192.168.8.106:9000/contact/update', {
+    this.http.put<any>('http://192.168.8.104:9000/contact/update', {
       contactId: contactToUpdate.contactId,
       contactName: contactToUpdate.contactName,
       contactNumber: contactToUpdate.contactNumber,
