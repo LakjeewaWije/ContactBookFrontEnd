@@ -75,9 +75,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.delete<any>('http://192.168.8.104:9000/contact/delete' + '/' + contact.contactId, {
-      contact
-    }, {headers: headers}).subscribe(res => {
+    this.http.delete<any>('http://192.168.8.104:9000/contact/delete' + '/' + contact.contactId, {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
@@ -95,7 +93,7 @@ export class ContactsComponent implements OnInit {
     this.editmodal.style.display = 'block';
     this.newcontactName = contact.contactName;
     this.newcontactNumber = contact.contactNumber;
-    this.contact.setcontactId(contact.contactId);
+    this.contact.$contactId = contact.contactId;
     this.user.setuserId(contact.user.userId);
     this.user.setfirstName(contact.user.firstName);
     this.user.setlastName(contact.user.lastName);
@@ -106,8 +104,8 @@ export class ContactsComponent implements OnInit {
   }
 
   saveEditedContact(): any {
-    const contactToUpdate: any;
-    const user: any;
+    let contactToUpdate: any;
+    let user: any;
     this.contact.setcontactName(this.newcontactName);
     this.contact.setcontactNumber(this.newcontactNumber);
     contactToUpdate = this.contact;
@@ -139,6 +137,9 @@ export class ContactsComponent implements OnInit {
   }
   closeModal() {
     this.editmodal.style.display = 'none';
+  }
+  showToggle(): any {
+    document.getElementById('myModal').style.display = 'block';
   }
 }
 

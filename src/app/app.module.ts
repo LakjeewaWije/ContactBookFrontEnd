@@ -7,18 +7,22 @@ import { AppRoutingModule } from './app-routing/app-routing.module';
 import {LoginComponent} from './login/login/login.component';
 import {RegisterComponent} from './register/register/register.component';
 import {ContactsComponent} from './contacts/contacts/contacts.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { SettingsComponent } from './settings/settings/settings.component';
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     RegisterComponent,
-    ContactsComponent
+    ContactsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
     HttpClientModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent]
