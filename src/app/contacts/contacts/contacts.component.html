@@ -1,7 +1,10 @@
 <div style="background-color: black;height: 80px">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-5">
     </div>
+    <div class="col-md-5">
+      <h1 style="color:aliceblue">Welcome {{usernamehead}}!</h1>
+      </div>
     <div class="col-md-2" style="padding-top: 16px;
     padding-left: 93px;">
     <div class="row">
@@ -56,6 +59,19 @@
                     <label class="text" for="contactNumber">Contact Number</label>
                     <input type="text" class="form-control" id="contactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="contactNumber" [ngModelOptions]="{standalone: true}">
                   </div>
+                  <ngb-accordion #acc="ngbAccordion">
+                      <ngb-panel id="toggle-1" title="First panel">
+                        <ng-template ngbPanelContent>
+                          Anim pariatur cliche reprehenderit, enim eiusmod high life 
+                        </ng-template>
+                      </ngb-panel>
+                      <ngb-panel id="toggle-2" title="Second">
+                        <ng-template ngbPanelContent>
+                          Anim pariatur cliche reprehenderit, enim eiusmod 
+                        </ng-template>
+                      </ngb-panel>
+                    </ngb-accordion>
+                  <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
                   <button type="submit" class="btn btn-primary btntext" (click)="addContact()" style="background-color: #000000;">Add Contact</button>
                 </form>
               </div>
@@ -84,6 +100,7 @@
       </div>
       <div class="row">
         <div class="col-md-10" >
+            <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
         <button type="submit" class="btn btn-primary btntext" (click)="saveEditedContact()" style="background-color: #000000;">Save</button>
         </div>
       </div>
@@ -92,3 +109,4 @@
   </div>
 
 </div>
+

@@ -3,7 +3,8 @@ import {HttpClient} from '@angular/common/http';
 import {HttpHeaders} from '@angular/common/http';
 import { Router } from '@angular/router';
 import {Contact} from '../Data-model';
-import {User} from '../Data-model';
+import {Subject} from 'rxjs';
+import {debounceTime} from 'rxjs/operators';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
@@ -16,8 +17,11 @@ export class ContactsComponent implements OnInit {
   newcontactNumber: any;
   contacts: any;
   contact = new Contact();
-  user = new User();
   editmodal: any;
+  usernamehead:any;
+  private _success = new Subject<string>();
+  status: string;
+  modalstatus: string;
   url: string = 'http://192.168.8.102:9000';
   constructor(private http: HttpClient, private router: Router) {
     console.log('authToken ' + localStorage.getItem('authToken'));
@@ -25,7 +29,13 @@ export class ContactsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.usernamehead = localStorage.getItem('firstName');
+    console.log(this.usernamehead);
     this.getContacts();
+    this._success.subscribe((message) => this.status = message);
+    this._success.pipe(
+      debounceTime(3000)
+    ).subscribe(() => this.status = null);
   }
   /**
    * method to create an event and save that event to event names array
@@ -50,6 +60,9 @@ export class ContactsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        if(err.error.message != null){
+          this.changeSuccessMessage(err.error.message);
+      }
         console.log('Error occured');
       }
     );
@@ -97,22 +110,22 @@ export class ContactsComponent implements OnInit {
     this.newcontactName = contact.contactName;
     this.newcontactNumber = contact.contactNumber;
     this.contact.$contactId = contact.contactId;
-    this.user.setuserId(contact.user.userId);
-    this.user.setfirstName(contact.user.firstName);
-    this.user.setlastName(contact.user.lastName);
-    this.user.setemail(contact.user.email);
-    this.user.setpassword(contact.user.password);
-    this.user.setAuthToken(contact.user.authToken);
-    this.contact.setuserObj(this.user);
+    // this.user.setuserId(contact.user.userId);
+    // this.user.setfirstName(contact.user.firstName);
+    // this.user.setlastName(contact.user.lastName);
+    // this.user.setemail(contact.user.email);
+    // this.user.setpassword(contact.user.password);
+    // this.user.setAuthToken(contact.user.authToken);
+    this.contact.$userObj = contact.user;
   }
 
   saveEditedContact(): any {
     let contactToUpdate: any;
     let user: any;
-    this.contact.setcontactName(this.newcontactName);
-    this.contact.setcontactNumber(this.newcontactNumber);
+    this.contact.$contactName=this.newcontactName;
+    this.contact.$contactNumber=this.newcontactNumber;
     contactToUpdate = this.contact;
-    user = this.user;
+    user = this.contact.$userObj;
     console.log(this.contact);
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
@@ -134,6 +147,9 @@ export class ContactsComponent implements OnInit {
       },
       err => {
         console.log(err);
+        if(err.error.message != null){
+          this.changeSuccessMessage(err.error.message);
+      }
         console.log('Error occured');
       }
     );
@@ -144,5 +160,13 @@ export class ContactsComponent implements OnInit {
   showToggle(): any {
     document.getElementById('myModal').style.display = 'block';
   }
+  public changeSuccessMessage(message :string) {
+    if(message != null){
+      this._success.next(message);
+    }else{
+      this._success.next('Please Fill all the Fields');
+    }
+  }
+
 }
 
