@@ -51,6 +51,9 @@ export class LoginComponent implements OnInit {
       },
       err => {
         console.log(err);
+        if(err.error.message != null){
+          this.changeSuccessMessage(err.error.message);
+      }
         console.log('Error occured');
       }
     );
@@ -58,12 +61,16 @@ export class LoginComponent implements OnInit {
     this.upassword = '';
   }else{
     console.log('Fill all the fields');
-    this.changeSuccessMessage();
+    this.changeSuccessMessage(null);
     this.uemail=null;
     this.upassword=null;
   }
 }
-public changeSuccessMessage() {
-  this._success.next('Please Fill all the Fields');
+public changeSuccessMessage(message :string) {
+  if(message != null){
+    this._success.next(message);
+  }else{
+    this._success.next('Please Fill all the Fields');
+  }
 }
 }
