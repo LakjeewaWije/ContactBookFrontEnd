@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./settings.component.css']
 })
 export class SettingsComponent implements OnInit {
-
+  url: string = 'http://192.168.8.102:9000';
   constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit() {
@@ -21,7 +21,7 @@ export class SettingsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.put<any>('http://192.168.8.104:9000/user/logout',{},
+    this.http.put<any>(this.url+'/user/logout',{},
    {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {

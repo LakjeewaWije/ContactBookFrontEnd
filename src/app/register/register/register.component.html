@@ -24,7 +24,9 @@
                 <label class="text" for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="upassword" [ngModelOptions]="{standalone: true}">
               </div>
+              <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
               <button type="submit" class="btn btn-primary btntext" (click)="registerUser()">Register</button>
+              <div>Already in here? ,<a routerLink="/login"> Login</a></div>
             </form>
           </div>
         </div>

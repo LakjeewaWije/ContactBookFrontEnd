@@ -16,6 +16,7 @@
                 <label class="text" for="password">Password</label>
                 <input type="password" class="form-control" id="password" placeholder="Password" [(ngModel)]="upassword" [ngModelOptions]="{standalone: true}">
               </div>
+              <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
               <button type="submit" class="btn btn-primary btntext" (click)="loginUser()">Login</button>
               <div>Create a New Account ,<a routerLink="/register"> Register</a></div>
             </form>
