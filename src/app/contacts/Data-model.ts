@@ -10,43 +10,19 @@ export class Contact {
     this.contactId = contactId;
   }
 
-  setcontactName(contactName): void {
+  public set $contactName(contactName: string){
     this.contactName = contactName;
   }
-  setcontactNumber(contactNumber): void {
+  public set $contactNumber(contactNumber: string){
     this.contactNumber = contactNumber;
     console.log(contactNumber);
   }
-  setcontactId(contactId): void {
-    this.contactId = contactId;
-  }
-  setuserObj(obj): void {
+  public set $userObj(obj :any){
     this.user = obj;
   }
+  public get $userObj() {
+    return this.user;
+  }
+  
 }
-export class User {
-  private userId: number;
-  private firstName: String;
-  private lastName: String;
-  private email: String;
-  private password: String;
-  private authToken: String;
-  setuserId(userId): void {
-    this.userId = userId;
-  }
-  setfirstName(firstName): void {
-    this.firstName = firstName;
-  }
-  setlastName(lastName): void {
-    this.lastName = lastName;
-  }
-  setemail(email): void {
-    this.email = email;
-  }
-  setpassword(password): void {
-    this.password = password;
-  }
-  setAuthToken(authToken): void {
-    this.authToken = authToken;
-  }
-}
+

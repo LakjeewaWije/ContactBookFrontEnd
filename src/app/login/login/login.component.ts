@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
         console.log(res);
         if (res.data.user.authToken != null) {
           localStorage.setItem('authToken', res.data.user.authToken);
+          localStorage.setItem('firstName',res.data.user.firstName);
           this.router.navigateByUrl('/contacts');
         }
       },
