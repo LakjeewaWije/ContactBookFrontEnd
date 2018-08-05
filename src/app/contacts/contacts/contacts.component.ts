@@ -18,6 +18,7 @@ export class ContactsComponent implements OnInit {
   contact = new Contact();
   user = new User();
   editmodal: any;
+  url: string = 'http://192.168.8.102:9000';
   constructor(private http: HttpClient, private router: Router) {
     console.log('authToken ' + localStorage.getItem('authToken'));
     this.editmodal = document.getElementById('myModal');
@@ -36,13 +37,15 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.post<any>('http://192.168.8.104:9000/contact/add', {
+    this.http.post<any>(this.url + '/contact/add', {
       contactName: this.contactName,
       contactNumber: this.contactNumber
     }, {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
+          this.contactName =null;
+          this.contactNumber=null;
         }
       },
       err => {
@@ -57,7 +60,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.get<any>('http://192.168.8.104:9000/contact/view', {headers: headers}).subscribe(res => {
+    this.http.get<any>(this.url + '/contact/view', {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
@@ -75,9 +78,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.delete<any>('http://192.168.8.104:9000/contact/delete' + '/' + contact.contactId, {
-      contact
-    }, {headers: headers}).subscribe(res => {
+    this.http.delete<any>(this.url + '/contact/delete' + '/' + contact.contactId, {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
@@ -95,7 +96,7 @@ export class ContactsComponent implements OnInit {
     this.editmodal.style.display = 'block';
     this.newcontactName = contact.contactName;
     this.newcontactNumber = contact.contactNumber;
-    this.contact.setcontactId(contact.contactId);
+    this.contact.$contactId = contact.contactId;
     this.user.setuserId(contact.user.userId);
     this.user.setfirstName(contact.user.firstName);
     this.user.setlastName(contact.user.lastName);
@@ -106,8 +107,8 @@ export class ContactsComponent implements OnInit {
   }
 
   saveEditedContact(): any {
-    const contactToUpdate: any;
-    const user: any;
+    let contactToUpdate: any;
+    let user: any;
     this.contact.setcontactName(this.newcontactName);
     this.contact.setcontactNumber(this.newcontactNumber);
     contactToUpdate = this.contact;
@@ -117,7 +118,7 @@ export class ContactsComponent implements OnInit {
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
-    this.http.put<any>('http://192.168.8.104:9000/contact/update', {
+    this.http.put<any>(this.url + '/contact/update', {
       contactId: contactToUpdate.contactId,
       contactName: contactToUpdate.contactName,
       contactNumber: contactToUpdate.contactNumber,
@@ -139,6 +140,9 @@ export class ContactsComponent implements OnInit {
   }
   closeModal() {
     this.editmodal.style.display = 'none';
+  }
+  showToggle(): any {
+    document.getElementById('myModal').style.display = 'block';
   }
 }
 

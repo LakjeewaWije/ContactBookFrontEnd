@@ -1,9 +1,15 @@
 export class Contact {
-  private contactId: long;
+  private contactId: number;
   private contactName: String;
   private contactNumber: String;
   private user: any;
-  
+  public get $contactId() {
+    return this.contactId;
+  }
+  public set $contactId(contactId: number) {
+    this.contactId = contactId;
+  }
+
   setcontactName(contactName): void {
     this.contactName = contactName;
   }
@@ -19,7 +25,7 @@ export class Contact {
   }
 }
 export class User {
-  private userId: long;
+  private userId: number;
   private firstName: String;
   private lastName: String;
   private email: String;
