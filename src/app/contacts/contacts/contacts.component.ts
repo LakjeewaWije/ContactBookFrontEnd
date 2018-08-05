@@ -44,6 +44,8 @@ export class ContactsComponent implements OnInit {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
+          this.contactName =null;
+          this.contactNumber=null;
         }
       },
       err => {
