@@ -5,16 +5,28 @@ import { Router } from '@angular/router';
 import {Contact} from '../Data-model';
 import {Subject} from 'rxjs';
 import {debounceTime} from 'rxjs/operators';
+import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-contacts',
   templateUrl: './contacts.component.html',
   styleUrls: ['./contacts.component.css']
 })
 export class ContactsComponent implements OnInit {
+   // -------------------------------Variables Used When Adding Contacts-----------------------------------
   contactName: any;
   contactNumber: any;
+  officenumber: any;
+  useremail:any;
+  useraddress: any;
+  // -------------------------------Varibales Used When Editing a Contact-----------------------------------
+  newcontactId: any;
   newcontactName: any;
   newcontactNumber: any;
+  newofficenumber: any;
+  newuseremail:any;
+  newuseraddress: any;
+  newuser:any;
+   // ------------------------------------------------------------------
   contacts: any;
   contact = new Contact();
   editmodal: any;
@@ -22,8 +34,9 @@ export class ContactsComponent implements OnInit {
   private _success = new Subject<string>();
   status: string;
   modalstatus: string;
-  url: string = 'http://192.168.8.102:9000';
-  constructor(private http: HttpClient, private router: Router) {
+  closeResult: string;
+  url: string = 'http://192.168.8.101:9000';
+  constructor(private http: HttpClient, private router: Router, private modalService: NgbModal) {
     console.log('authToken ' + localStorage.getItem('authToken'));
     this.editmodal = document.getElementById('myModal');
   }
@@ -42,30 +55,41 @@ export class ContactsComponent implements OnInit {
    * @param {string} eventname
    */
   addContact(): any {
-    const headers = new HttpHeaders({
-      'authToken': localStorage.getItem('authToken'),
-      'Content-Type': 'application/json; charset=utf-8',
-      'Access-Control-Allow-Origin': '*'
-    });
-    this.http.post<any>(this.url + '/contact/add', {
-      contactName: this.contactName,
-      contactNumber: this.contactNumber
-    }, {headers: headers}).subscribe(res => {
-        console.log(res);
-        if (res.data != null) {
-          this.contacts = res.data;
-          this.contactName =null;
-          this.contactNumber=null;
+    if(this.contactName !=null && this.contactNumber != null){
+    if(!isNaN(this.contactNumber)){
+      const headers = new HttpHeaders({
+        'authToken': localStorage.getItem('authToken'),
+        'Content-Type': 'application/json; charset=utf-8',
+        'Access-Control-Allow-Origin': '*'
+      });
+      this.http.post<any>(this.url + '/contact/add', {
+        contactName: this.contactName,
+        contactNumber: this.contactNumber,
+        postalAddress: this.useraddress,
+        workNumber: this.officenumber,
+        email: this.useremail
+      }, {headers: headers}).subscribe(res => {
+          console.log(res);
+          if (res.data != null) {
+            this.contacts = res.data;
+            this.contactName =null;
+            this.contactNumber=null;
+          }
+        },
+        err => {
+          console.log(err);
+          if(err.error.message != null){
+            this.changeSuccessMessage(err.error.message);
         }
-      },
-      err => {
-        console.log(err);
-        if(err.error.message != null){
-          this.changeSuccessMessage(err.error.message);
-      }
-        console.log('Error occured');
-      }
-    );
+          console.log('Error occured');
+        }
+      );
+    }else{
+        this.changeSuccessMessage('Contact Number must be numeric');
+    }
+  }else{
+    this.changeSuccessMessage('Fill required Fields');
+  }
   }
   getContacts() {
     const headers = new HttpHeaders({
@@ -103,45 +127,49 @@ export class ContactsComponent implements OnInit {
       }
     );
   }
-  editContact(contact: any): any {
-    console.log('edit');
-    this.editmodal = document.getElementById('myModal');
-    this.editmodal.style.display = 'block';
+  editContact(content,contact: any): any {
     this.newcontactName = contact.contactName;
-    this.newcontactNumber = contact.contactNumber;
-    this.contact.$contactId = contact.contactId;
-    // this.user.setuserId(contact.user.userId);
-    // this.user.setfirstName(contact.user.firstName);
-    // this.user.setlastName(contact.user.lastName);
-    // this.user.setemail(contact.user.email);
-    // this.user.setpassword(contact.user.password);
-    // this.user.setAuthToken(contact.user.authToken);
-    this.contact.$userObj = contact.user;
+      this.newcontactNumber = contact.contactNumber;
+      this.newofficenumber = contact.workNumber;
+      this.newuseraddress= contact.postalAddress;
+      this.newuseremail= contact.email;
+      this.newcontactId = contact.contactId;
+      this.newuser= contact.user;
+      console.log(this.newuser);
+    this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log('result'+result)
+      this.saveEditedContact(result);
+    }, (reason) => {
+      console.log('reason'+reason);
+    });
+    console.log('edit');
   }
 
-  saveEditedContact(): any {
+  saveEditedContact(result): any {
+    if(result === 'save'){
     let contactToUpdate: any;
     let user: any;
-    this.contact.$contactName=this.newcontactName;
-    this.contact.$contactNumber=this.newcontactNumber;
-    contactToUpdate = this.contact;
-    user = this.contact.$userObj;
-    console.log(this.contact);
+    console.log('Contact new is   ---- '+this.newcontactNumber+this.newcontactName+this.newofficenumber+this.newuseraddress+this.newuseremail+this.newuser);
+    if(this.newcontactName !=null && this.newcontactNumber != null){
+    if(!isNaN(this.newcontactNumber)){
     const headers = new HttpHeaders({
       'Content-Type': 'application/json; charset=utf-8',
       'Access-Control-Allow-Origin': '*'
     });
     this.http.put<any>(this.url + '/contact/update', {
-      contactId: contactToUpdate.contactId,
-      contactName: contactToUpdate.contactName,
-      contactNumber: contactToUpdate.contactNumber,
-       user: user
+      contactId: this.newcontactId,
+      contactName: this.newcontactName,
+      contactNumber: this.newcontactNumber,
+      postalAddress: this.newuseraddress,
+        workNumber: this.newofficenumber,
+        email: this.newuseremail,
+       user: this.newuser
     }, {headers: headers}).subscribe(res => {
         console.log(res);
         if (res.data != null) {
           this.contacts = res.data;
           if (this.contacts != null) {
-            this.editmodal.style.display = 'none';
+            
           }
         }
       },
@@ -153,20 +181,22 @@ export class ContactsComponent implements OnInit {
         console.log('Error occured');
       }
     );
-  }
-  closeModal() {
-    this.editmodal.style.display = 'none';
-  }
-  showToggle(): any {
-    document.getElementById('myModal').style.display = 'block';
+  }else{
+    this.changeSuccessMessage('Contact Number must be numeric');
+}
+}else{
+  this.changeSuccessMessage('Fill required Fields');
+}
+    }else{
+      console.log(status);
+    }
   }
   public changeSuccessMessage(message :string) {
     if(message != null){
       this._success.next(message);
     }else{
-      this._success.next('Please Fill all the Fields');
+      this._success.next('Fill required Fields');
     }
   }
-
 }
 

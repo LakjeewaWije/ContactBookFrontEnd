@@ -14,7 +14,7 @@ export class RegisterComponent implements OnInit {
     lastname: string;
     uemail: string;
     upassword: string;
-    url: string = 'http://192.168.8.102:9000';
+    url: string = 'http://192.168.8.101:9000';
     private _success = new Subject<string>();
     status: string;
   constructor(private http: HttpClient, private router: Router) { }

@@ -10,7 +10,7 @@ import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 })
 export class SettingsComponent implements OnInit {
   closeResult: string;
-  url: string = 'http://192.168.8.102:9000';
+  url: string = 'http://192.168.8.101:9000';
   constructor(private http: HttpClient, private router: Router, private modalService: NgbModal) { }
 
   ngOnInit() {
@@ -46,15 +46,16 @@ export class SettingsComponent implements OnInit {
         }
       );
     }else{
-      console.log(status);
+      // console.log(status);
     }
     
   }
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
+      console.log('result'+result);
       this.confirmLogout(result);
     }, (reason) => {
-      
+      console.log('reason '+reason);
     });
   }
 }

@@ -24,11 +24,24 @@
               <ul class="list-group w3-ul">
                 <li *ngFor="let contact  of contacts" class="list-group-item divli">
                   <div class="row">
-                    <div class="col-md-8" >
-                      <span> {{ contact.contactName }} | {{ contact.contactNumber }} </span>
+                    <div class="col-md-8">
+                      <div class="row">
+                          <div class="col-md-2">
+                          </div>
+                          <div class="col-md-10">
+                              <span>{{ contact.contactName }}</span>
+                          </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-2">
+                            </div>
+                            <div class="col-md-10">
+                                <span>{{ contact.contactNumber }}</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-md-4" >
-                      <span class="deletecontact" (click)="editContact(contact)"><img class="editIcon" src="https://www.shareicon.net/download/2017/02/05/878227_edit_512x512.png" style="width: 35px;height: 35px"></span>
+                      <span class="deletecontact" (click)="editContact(content,contact)"><img class="editIcon" src="https://www.shareicon.net/download/2017/02/05/878227_edit_512x512.png" style="width: 35px;height: 35px"></span>
                     </div>
 
                   </div>
@@ -52,27 +65,36 @@
                 </h1>
                 <form>
                   <div class="form-group">
-                    <label class="text" for="contactName">Contact Name</label>
-                    <input type="text" class="form-control" id="contactName" aria-describedby="emailHelp" placeholder="Name" [(ngModel)]="contactName" [ngModelOptions]="{standalone: true}">
+                    <label class="text" for="contactName">Contact Name <sup>*</sup></label>
+                    <input type="text" class="form-control" id="contactName" aria-describedby="contact name" placeholder="Name" [(ngModel)]="contactName" [ngModelOptions]="{standalone: true}">
                   </div>
                   <div class="form-group">
-                    <label class="text" for="contactNumber">Contact Number</label>
-                    <input type="text" class="form-control" id="contactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="contactNumber" [ngModelOptions]="{standalone: true}">
+                    <label class="text" for="contactNumber">Contact Number<sup>*</sup></label>
+                    <input type="text" class="form-control" id="contactNumber" aria-describedby="contact number" placeholder="Number" [(ngModel)]="contactNumber" [ngModelOptions]="{standalone: true}">
                   </div>
                   <ngb-accordion #acc="ngbAccordion">
-                      <ngb-panel id="toggle-1" title="First panel">
+                      <ngb-panel id="toggle-2">
+                          <ng-template ngbPanelTitle>
+                              <span>Optional<img src="http://www.free-icons-download.net/images/plus-icon-27951.png" style="width: 20px;height: 20px"></span>
+                            </ng-template>
                         <ng-template ngbPanelContent>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life 
-                        </ng-template>
-                      </ngb-panel>
-                      <ngb-panel id="toggle-2" title="Second">
-                        <ng-template ngbPanelContent>
-                          Anim pariatur cliche reprehenderit, enim eiusmod 
+                            <div class="form-group">
+                                <label class="text" for="officenumber">Office</label>
+                                <input type="text" class="form-control" id="officenumber" aria-describedby="worknumber" placeholder="Work Number" [(ngModel)]="officenumber" [ngModelOptions]="{standalone: true}">
+                              </div>
+                              <div class="form-group">
+                                  <label class="text" for="email">Email</label>
+                                  <input type="text" class="form-control" id="useremail" aria-describedby="emailHelp" placeholder="Email" [(ngModel)]="useremail" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group">
+                                    <label class="text" for="address">Address</label>
+                                    <input type="text" class="form-control" id="address" aria-describedby="address" placeholder="Postal Address" [(ngModel)]="useraddress" [ngModelOptions]="{standalone: true}">
+                                  </div>
                         </ng-template>
                       </ngb-panel>
                     </ngb-accordion>
                   <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
-                  <button type="submit" class="btn btn-primary btntext" (click)="addContact()" style="background-color: #000000;">Add Contact</button>
+                  <button type="submit" class="btn btn-primary btntext" (click)="addContact()" style="background-color: #000000;margin-top: 10px">Add Contact</button>
                 </form>
               </div>
             </div>
@@ -82,31 +104,45 @@
     </div>
   </div>
 </div>
-<!-- The Modal -->
-<div id="myModal" class="modal">
-
-  <!-- Modal content -->
-  <div class="modal-content">
-    <span class="close" id="closebut" (click)="closeModal()">&times;</span>
-    <form>
-      <div class="form-group">
-        <p>Edit Contact</p>
-        <label class="text" for="contactName">Contact Name</label>
-        <input type="text" class="form-control" id="newcontactName" aria-describedby="emailHelp" placeholder="Name" [(ngModel)]="newcontactName" [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="form-group">
-        <label class="text" for="contactNumber">Contact Number</label>
-        <input type="text" class="form-control" id="newcontactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="newcontactNumber" [ngModelOptions]="{standalone: true}">
-      </div>
-      <div class="row">
-        <div class="col-md-10" >
-            <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
-        <button type="submit" class="btn btn-primary btntext" (click)="saveEditedContact()" style="background-color: #000000;">Save</button>
-        </div>
-      </div>
-
-    </form>
-  </div>
-
-</div>
-
+<!-- New Modal -->
+<ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <!-- <h4 class="modal-title" id="modal-basic-title">Edit Contacts</h4> -->
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <h4 class="modal-title" id="modal-basic-title">Edit Contacts</h4>
+        <form>
+            <div class="form-group">
+              <label class="text" for="contactName">Contact Name</label>
+              <input type="text" class="form-control" id="newcontactName" aria-describedby="emailHelp" placeholder="Name" [(ngModel)]="newcontactName" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="form-group">
+              <label class="text" for="contactNumber">Contact Number</label>
+              <input type="text" class="form-control" id="newcontactNumber" aria-describedby="emailHelp" placeholder="Number" [(ngModel)]="newcontactNumber" [ngModelOptions]="{standalone: true}">
+            </div>
+            <div class="form-group">
+                <label class="text" for="officenumber">Office</label>
+                <input type="text" class="form-control" id="officenumber" aria-describedby="worknumber" placeholder="Work Number" [(ngModel)]="newofficenumber" [ngModelOptions]="{standalone: true}">
+              </div>
+              <div class="form-group">
+                  <label class="text" for="email">Email</label>
+                  <input type="text" class="form-control" id="useremail" aria-describedby="emailHelp" placeholder="Email" [(ngModel)]="newuseremail" [ngModelOptions]="{standalone: true}">
+                </div>
+                <div class="form-group">
+                    <label class="text" for="address">Address</label>
+                    <input type="text" class="form-control" id="address" aria-describedby="address" placeholder="Postal Address" [(ngModel)]="newuseraddress" [ngModelOptions]="{standalone: true}">
+                  </div>
+            <div class="row">
+              <div class="col-md-10" >
+                  <ngb-alert *ngIf="status" type="danger" (close)="status = null">{{ status }}</ngb-alert>
+              </div>
+            </div>
+          </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('save')">Save</button>
+    </div>
+  </ng-template>
